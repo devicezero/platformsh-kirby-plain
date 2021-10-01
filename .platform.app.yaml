@@ -1,0 +1,61 @@
+# This file describes an application. You can have multiple applications
+# in the same project.
+
+# The name of this app. Must be unique within a project.
+name: kirby
+
+# The type of the application to build.
+type: php:8.0
+
+dependencies:
+    php:
+        composer/composer: '^2'
+
+# Specify additional PHP extensions that should be loaded.
+runtime:
+    extensions:
+        - ctype
+        - mbstring
+        - gd
+
+# The hooks that will be performed when the package is deployed.
+# hooks:
+#     build: |
+#         set -e
+
+#     deploy: |
+#         set -e
+
+# The size of the persistent disk of the application (in MB).
+disk: 2048
+
+# The mounts that will be performed when the package is deployed.
+mounts:
+    "/content":
+        source: local
+        source_path: "content"
+    "/media":
+        source: local
+        source_path: "media"
+    "/site/accounts":
+        source: local
+        source_path: "site/accounts"
+    "/site/cache":
+        source: local
+        source_path: "site/cache"
+    "/site/sessions":
+        source: local
+        source_path: "site/sessions"
+
+# The configuration of app when it is exposed to the web.
+web:
+    locations:
+        "/":
+            # The public directory of the app, relative to its root.
+            root: ""
+            # The front-controller script to send non-static requests to.
+            passthru: "/index.php"
+            expires: 24h
+            rules:
+                \.(css|js|gif|jpe?g|png|ttf|eot|woff2?|otf|cast|mp4|json|yaml|ico|svg?|cast|mp4|json|yaml|svg?|ttf)$:
+                    expires: 4w
